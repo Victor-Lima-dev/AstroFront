@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<h1>Formulário para iniciar uma requisição</h1>
+
+<label for="textoEntrada">Digite o texto de entrada:</label>
+<input type="text" id="textoEntrada" name="textoEntrada">
+<button type="button" onclick="enviarFormulario()">Enviar</button>
+
+
+
+<script>
+    function enviarFormulario() {
+
+        // Obter os valores dos campos do formulário
+        var textoEntrada1 = document.getElementById("textoEntrada").value;
+
+        fetch("http://localhost:5084/api/Requisicoes/IniciarRequisicao?textoEntrada="+textoEntrada1, {
+            method: "POST",
+           
+            body: JSON.stringify({
+                textoEntrada: "textoEntrada"
+            })
+        })
+            .then(function (response) {
+                // Se a requisição foi concluída com sucesso
+                if (response.ok) {
+                    // Retornar o ID da requisição como uma promessa
+                    return response.text();
+                } else {
+                    // Lançar um erro se a requisição falhou
+                    throw new Error("Requisição falhou: " + console.log(JSON.stringify({
+                textoEntrada: "textoEntrada"
+            })));
+                }
+            })
+            .then(function (idRequisicao) {
+                // Mostrar uma mensagem com o ID da requisição
+                alert("Requisição iniciada com sucesso. O ID da requisição é: " + idRequisicao);
+            })
+            .catch(function (error) {
+                // Mostrar uma mensagem de erro
+                alert("Ocorreu um erro: " + error.message);
+            });
+    }
+
+</script>
